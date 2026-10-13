@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlexTube — Convertisseur & Téléchargeur Vidéo & Audio Gratuit (YouTube, TikTok, Pinterest)</title>
+  <meta name="description" content="Téléchargez et convertissez gratuitement vos vidéos YouTube, TikTok et Pinterest en MP3 ou MP4 haute définition. Rapide, sans filigrane et sans inscription.">
+  <meta name="theme-color" content="#0f1117">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FlexTube — Téléchargeur Vidéo & Audio Universel">
+  <meta property="og:description" content="Convertissez vos vidéos YouTube, TikTok, Pinterest en MP3 et MP4 en quelques secondes.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef4444'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z'/%3E%3C/svg%3E">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"></polygon>
+          </svg>
+        </div>
+        <span class="logo-text">Flex<span>Tube</span></span>
+        <span class="badge-pro">FREE</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#downloader" class="nav-link active">Convertisseur</a>
+        <a href="#howItWorks" class="nav-link">Comment ça marche</a>
+        <a href="#platforms" class="nav-link">Plateformes</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button id="themeToggle" class="btn-icon" aria-label="Basculer le mode sombre/clair" title="Changer de thème">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Hero Section -->
+  <main>
+    <section class="hero-section" id="downloader">
+      <div class="hero-bg-glow"></div>
+      <div class="container hero-content">
+        <div class="trust-pill">
+          <span class="stars">★★★★★</span>
+          <span>100% Gratuit • Sans inscription • Illimité</span>
+        </div>
+
+        <h1 class="hero-title">
+          Téléchargez vos vidéos en <span class="gradient-text">MP3 & MP4</span>
+        </h1>
+        <p class="hero-subtitle">
+          Collez le lien d'une vidéo <strong>YouTube</strong>, <strong>TikTok</strong> ou <strong>Pinterest</strong> et téléchargez votre fichier en haute qualité en quelques secondes.
+        </p>
+
+        <!-- Downloader Box -->
+        <div class="downloader-card">
+          <form id="downloadForm" class="download-form" autocomplete="off">
+            <div class="input-wrapper">
+              <div class="platform-icon-wrap" id="platformIconWrap" title="Plateforme détectée">
+                <svg id="defaultIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+              </div>
+
+              <input 
+                type="url" 
+                id="urlInput" 
+                class="url-input" 
+                placeholder="Collez ici votre lien YouTube, TikTok ou Pinterest..." 
+                required
+                aria-label="Lien de la vidéo à télécharger"
+              >
+
+              <button type="button" id="pasteBtn" class="paste-btn" title="Coller depuis le presse-papier">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
+                <span>Coller</span>
+              </button>
+
+              <button type="button" id="clearBtn" class="clear-btn" title="Effacer" style="display: none;">
+                ✕
+              </button>
+            </div>
+
+            <!-- Format Selector Controls -->
+            <div class="controls-row">
+              <div class="format-group">
+                <label for="formatSelect" class="control-label">Format souhaité :</label>
+                <div class="select-wrapper">
+                  <select id="formatSelect" class="format-select">
+                    <optgroup label="🎵 Audio (Musique / Voix)">
+                      <option value="mp3-320" selected>MP3 HD (320 kbps) — Recommandé</option>
+                      <option value="mp3-192">MP3 Standard (192 kbps)</option>
+                      <option value="m4a">M4A (Haute fidélité)</option>
+                      <option value="wav">WAV (Sans perte)</option>
+                    </optgroup>
+                    <optgroup label="🎬 Vidéo">
+                      <option value="mp4-1080">MP4 (1080p Full HD)</option>
+                      <option value="mp4-720">MP4 (720p HD)</option>
+                      <option value="mp4-4k">MP4 (4K Ultra HD)</option>
+                      <option value="webm">WEBM (Optimisé web)</option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" id="submitBtn" class="btn-convert">
+                <span class="btn-text">Télécharger</span>
+                <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </form>
+
+          <!-- Quick Test Samples Pills -->
+          <div class="quick-samples">
+            <span class="samples-label">Essayer un exemple :</span>
+            <button class="sample-chip" data-url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-platform="youtube">
+              <span class="dot yt"></span> YouTube
+            </button>
+            <button class="sample-chip" data-url="https://www.tiktok.com/@creative_creator/video/7345678901234567890" data-platform="tiktok">
+              <span class="dot tt"></span> TikTok
+            </button>
+            <button class="sample-chip" data-url="https://www.pinterest.com/pin/1234567890987654321/" data-platform="pinterest">
+              <span class="dot pin"></span> Pinterest
+            </button>
+          </div>
+
+          <!-- Progress / Conversion State -->
+          <div id="conversionStatus" class="conversion-status" style="display: none;">
+            <div class="status-header">
+              <div class="spinner"></div>
+              <span id="statusMessage" class="status-msg">Analyse du lien en cours...</span>
+              <span id="statusPercent" class="status-percent">15%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div id="progressBar" class="progress-bar-fill" style="width: 15%;"></div>
+            </div>
+            <p class="status-hint">Veuillez patienter quelques instants, votre média est en cours de préparation...</p>
+          </div>
+
+          <!-- Result Card (Download Ready) -->
+          <div id="resultCard" class="result-card" style="display: none;">
+            <div class="result-thumbnail-wrap">
+              <img id="resultThumb" src="" alt="Aperçu vidéo" class="result-thumb">
+              <video id="resultVideoPlayer" controls playsinline class="result-player" style="display: none;"></video>
+              <audio id="resultAudioPlayer" controls class="result-player-audio" style="display: none;"></audio>
+              <span id="resultDuration" class="result-duration">03:32</span>
+              <span id="resultPlatformBadge" class="result-platform-badge">YouTube</span>
+            </div>
+
+            <div class="result-info">
+              <h3 id="resultTitle" class="result-title">Titre de la vidéo</h3>
+              <p id="resultAuthor" class="result-author">Auteur / Chaîne</p>
+              
+              <div class="result-meta-chips">
+                <span id="resultFormatBadge" class="chip">MP3 (320 kbps)</span>
+                <span id="resultSizeBadge" class="chip chip-dim">~ 8.4 Mo</span>
+                <span class="chip chip-success">✓ Fichier Fonctionnel</span>
+              </div>
+
+              <div class="result-actions" id="resultActions">
+                <a id="downloadLinkBtn" href="#" class="btn-primary download-now-btn" download>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span id="downloadBtnText">Télécharger la vidéo</span>
+                </a>
+
+                <button type="button" id="copyLinkBtn" class="btn-secondary" title="Copier le lien direct du média">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copier le lien média</span>
+                </button>
+
+                <button type="button" id="resetBtn" class="btn-ghost" title="Convertir un autre lien">
+                  Autre vidéo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Downloads History -->
+        <div id="historySection" class="history-section" style="display: none;">
+          <div class="history-header">
+            <h4>Vos téléchargements récents</h4>
+            <button id="clearHistoryBtn" class="clear-history-btn">Effacer l'historique</button>
+          </div>
+          <div id="historyList" class="history-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platform Strip -->
+    <section class="platform-strip" id="platforms">
+      <div class="container strip-inner">
+        <span class="strip-label">Plateformes supportées :</span>
+        <div class="strip-items">
+          <div class="strip-chip"><span class="badge-icon yt">▶</span> YouTube & Shorts</div>
+          <div class="strip-chip"><span class="badge-icon tt">♬</span> TikTok (Sans filigrane)</div>
+          <div class="strip-chip"><span class="badge-icon pin">📌</span> Pinterest Vidéos & Pins</div>
+          <div class="strip-chip"><span class="badge-icon ig">📷</span> Instagram Reels</div>
+          <div class="strip-chip"><span class="badge-icon tw">✕</span> X / Twitter</div>
+          <div class="strip-chip"><span class="badge-icon fb">f</span> Facebook</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="howItWorks">
+      <div class="container">
+        <div class="section-heading">
+          <span class="sub-label">Simplicité absolue</span>
+          <h2>Comment fonctionne FlexTube ?</h2>
+          <p>Téléchargez n'importe quel fichier multimédia en 3 étapes ultra rapides.</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+            </div>
+            <h3>1. Copiez & Collez le lien</h3>
+            <p>Ouvrez YouTube, TikTok ou Pinterest, cliquez sur « Partager » et copiez l'URL de votre vidéo.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+            </div>
+            <h3>2. Choisissez votre format</h3>
+            <p>Sélectionnez MP3 pour la musique/l'audio haute qualité ou MP4 (jusqu'à 1080p/4K) pour la vidéo.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </div>
+            <h3>3. Téléchargez instantanément</h3>
+            <p>Cliquez sur Télécharger. Le lien direct est généré en quelques secondes, sans publicité intrusive.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="features-section">
+      <div class="container">
+        <div class="section-heading">
+          <span class="sub-label">Avantages</span>
+          <h2>Pourquoi utiliser FlexTube ?</h2>
+          <p>Un convertisseur conçu pour être rapide, propre et puissant.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feat-icon feat-red">⚡</div>
+            <h3>Conversion Ultra-Rapide</h3>
+            <p>Notre algorithme de traitement extrait et prépare votre flux en un temps record.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feat-icon feat-blue">✨</div>
+            <h3>TikTok Sans Filigrane</h3>
+            <p>Téléchargez des vidéos TikTok épurées, sans logo ni watermark, en qualité d'origine.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feat-icon feat-purple">🎧</div>
+            <h3>Audio Haute Définition (320 kbps)</h3>
+            <p>Profitez du son le plus clair et net possible avec un encodage MP3 jusqu'à 320 kbps.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feat-icon feat-green">🔒</div>
+            <h3>100% Anonyme & Sécurisé</h3>
+            <p>Aucune inscription, aucun mot de passe requis et aucun historique conservé sur nos serveurs.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feat-icon feat-orange">📱</div>
+            <h3>Compatible Tous Appareils</h3>
+            <p>Fonctionne parfaitement sur iPhone, Android, Mac, Windows, tablette et PC.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feat-icon feat-cyan">🚀</div>
+            <h3>Entièrement Gratuit</h3>
+            <p>Aucun abonnement caché ni carte bancaire. FlexTube est libre et accessible à tous.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+      <div class="container">
+        <div class="section-heading">
+          <span class="sub-label">Questions fréquentes</span>
+          <h2>Tout ce que vous devez savoir</h2>
+        </div>
+
+        <div class="faq-accordion">
+          <details class="faq-item" open>
+            <summary class="faq-question">
+              <span>FlexTube est-il vraiment 100% gratuit ?</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Oui, FlexTube est totalement gratuit. Vous pouvez convertir et télécharger autant de vidéos et fichiers audio que vous le souhaitez, sans limitation quotidienne.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Puis-je télécharger les vidéos TikTok sans logo/watermark ?</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Absolument ! Lorsque vous collez un lien TikTok, FlexTube extrait le flux vidéo brut sans le filigrane officiel TikTok pour un résultat parfait.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Quels sont les formats audio et vidéo disponibles ?</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Pour l'audio : MP3 (320 kbps & 192 kbps), M4A, WAV. Pour la vidéo : MP4 (1080p Full HD, 720p HD, 4K UHD) et WEBM.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Où sont enregistrés les fichiers téléchargés ?</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Les fichiers téléchargés se trouvent directement dans le dossier « Téléchargements » par défaut de votre navigateur ou dans l'application Fichiers de votre smartphone.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Est-il nécessaire d'installer une extension ou un logiciel ?</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Non, aucun logiciel ni extension n'est requis. Tout s'exécute directement depuis votre navigateur web moderne.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="cta-banner">
+      <div class="container cta-inner">
+        <h2>Prêt à convertir votre première vidéo ?</h2>
+        <p>Collez simplement le lien en haut de page et profitez de votre fichier en quelques secondes.</p>
+        <button type="button" class="btn-primary" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); document.getElementById('urlInput').focus();">
+          Essayer maintenant
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <div class="logo-icon small">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"></polygon>
+            </svg>
+          </div>
+          <span class="logo-text">Flex<span>Tube</span></span>
+        </a>
+        <p class="footer-desc">
+          Convertisseur vidéo et audio gratuit et performant pour YouTube, TikTok, Pinterest et les réseaux sociaux.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <div class="col">
+          <h4>Outils</h4>
+          <a href="#downloader">Convertisseur YouTube MP3</a>
+          <a href="#downloader">Téléchargeur TikTok sans filigrane</a>
+          <a href="#downloader">Convertisseur Pinterest</a>
+          <a href="#downloader">YouTube MP4 1080p</a>
+        </div>
+        <div class="col">
+          <h4>Formats</h4>
+          <a href="#downloader">MP3 (320 kbps)</a>
+          <a href="#downloader">MP4 (Full HD)</a>
+          <a href="#downloader">WAV / M4A</a>
+          <a href="#downloader">WEBM</a>
+        </div>
+        <div class="col">
+          <h4>Légal</h4>
+          <a href="#">Conditions d'utilisation</a>
+          <a href="#">Politique de confidentialité</a>
+          <a href="#">Mentions légales</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2026 FlexTube. Tous droits réservés. Ce service est destiné à un usage personnel et privé conformément aux lois sur les droits d'auteur.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
