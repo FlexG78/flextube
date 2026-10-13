@@ -1,10 +1,11 @@
 services:
   - type: web
     name: flextube-backend
-    runtime: python
+    runtime: docker
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: python server.py
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.12.10
+      - key: FLEXTUBE_ALLOWED_ORIGINS
+        value: https://flexg78.github.io
