@@ -49,7 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // State
-  const API_BASE_URL = (window.FLEXTUBE_API_BASE || 'http://localhost:8000').replace(/\/$/, '');
+  const API_BASE_URL = (() => {
+    const configured = (window.FLEXTUBE_API_BASE || '').trim().replace(/\/$/, '');
+    if (configured) return configured;
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return 'http://localhost:8000';
+    }
+    return '';
+  })();
   let currentConversionData = null;
 
   // Initialize Theme
@@ -198,7 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('Média extrait avec succès !', 'success');
     } catch (err) {
       console.error(err);
-      showToast('Erreur lors du traitement du lien. Veuillez réessayer.', 'error');
+      const message = err && err.message ? err.message : 'Erreur lors du traitement du lien. Veuillez réessayer.';
+      showToast(message, 'error');
     } finally {
       submitBtn.disabled = false;
       conversionStatus.style.display = 'none';
@@ -238,6 +246,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. YouTube Resolver (real backend extraction, no mock demo stream)
   async function resolveYouTubeMedia(url, formatKey, isAudio) {
+    if (!API_BASE_URL) {
+      throw new Error('Backend non configuré. Définissez window.FLEXTUBE_API_BASE sur l’URL publique de votre backend Python (Render/Railway/Fly.io).');
+    }
+
     const response = await fetch(`${API_BASE_URL}/api/download`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -264,6 +276,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. Pinterest Resolver (real backend extraction, no mock stream)
   async function resolvePinterestMedia(url, isAudio) {
+    if (!API_BASE_URL) {
+      throw new Error('Backend non configuré. Définissez window.FLEXTUBE_API_BASE sur l’URL publique de votre backend Python (Render/Railway/Fly.io).');
+    }
+
     const response = await fetch(`${API_BASE_URL}/api/download`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
